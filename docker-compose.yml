@@ -1,0 +1,9 @@
+postgres:
+    image: postgres:13.1-alpine
+    volumes:
+      - database:/var/lib/postgresql/data
+    networks:
+      - connection
+    environment:
+      - POSTGRES_PASSWORD=local-password
+      - POSTGRES_DB=software-engineering
