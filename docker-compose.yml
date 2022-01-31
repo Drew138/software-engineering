@@ -1,4 +1,7 @@
-postgres:
+version: "3.8"
+
+services:
+  postgres:
     image: postgres:13.1-alpine
     volumes:
       - database:/var/lib/postgresql/data
@@ -7,3 +10,40 @@ postgres:
     environment:
       - POSTGRES_PASSWORD=local-password
       - POSTGRES_DB=software-engineering
+
+  express:
+    build:
+      context: backend
+    command: npm run dev
+    depends_on:
+      - postgres
+    networks:
+      - connection
+    ports:
+      - "4200:4200"
+    volumes:
+      - ./backend:/usr/src/app
+    environment:
+      - DATABASE_URL=psql://postgres:local-password@postgres/software-engineering
+
+  react:
+    build:
+      context: frontend
+    command: npm start
+    depends_on:
+      - express
+    networks:
+      - connection
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/usr/src/app
+    environment:
+      - BACKEND_URL=http://127.0.0.1:4200
+
+networks:
+  connection:
+
+volumes:
+  database:
+  

@@ -1,3 +1,9 @@
-FROM node:16.9 AS dev
-RUN npm start
-WORKDIR /usr/src/app
+FROM node:16.9
+
+WORKDIR /usr/src/app/
+
+COPY package*.json .
+
+RUN npm install
+
+COPY . .
