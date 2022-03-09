@@ -2,10 +2,12 @@ const Sequelize = require("sequelize");
 const db = require("../config/database");
 const Clase = require("./clase");
 const User = require("./user");
+const Respuesta = require("./respuesta");
 
-const Anuncio = db.define("anuncio", {
+const Pregunta = db.define("pregunta", {
         titulo: {
-            type: Sequelize.STRING
+            type: Sequelize.STRING,
+            allowNull: false,
         },
         cuerpo: {
             type: Sequelize.TEXT
@@ -21,8 +23,8 @@ const Anuncio = db.define("anuncio", {
     }
 );
 
-Anuncio.belongsTo(Clase);
-Clase.hasOne(Anuncio);
-Anuncio.hasOne(User, {as: "profesor"}) //default foreign key: userId
+Pregunta.belongsTo(Clase)
+Pregunta.hasOne(User, {as: "profesor"}) //default foreign key: userId
+Pregunta.hasOne(Respuesta, {as: "respuesta"}) //default foreign key: userId
 
-module.exports = Anuncio;
+module.exports = Pregunta;
