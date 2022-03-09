@@ -25,7 +25,7 @@ services:
       - ./backend:/usr/src/app
       - /usr/src/app/node_modules/
     environment:
-      - DATABASE_URL=psql://postgres:local-password@postgres/software-engineering
+      - DATABASE_URL=postgres://postgres:local-password@postgres/software-engineering
 
   react:
     build:
@@ -41,7 +41,7 @@ services:
       - ./frontend:/usr/src/app
       - /usr/src/app/node_modules/
     environment:
-      - BACKEND_URL=http://127.0.0.1:4200
+      - BACKEND_URL=http://express:4200
 
 networks:
   connection:

@@ -1,10 +1,10 @@
 import express from 'express';
 const router = express.Router();
-import anuncioTable from '../models/anuncio';
+import respuestaTable from '../models/respuesta';
 
 // Get all publications
 router.get('/anuncio/', async (req, res) => {
-    const records = await anuncioTable.findAll()
+    const records = await respuestaTable.findAll()
         .catch(err => console.log(err));
     res.status(200).json({msg: 'success'});
 })
@@ -13,7 +13,7 @@ router.get('/anuncio/', async (req, res) => {
 router.get('/anuncio/:id/', async (req, res) => {
     const id = req.params.id;
     
-    const record = await anuncioTable.find({ id })
+    const record = await respuestaTable.find({ id })
         .catch(err => console.log(err));
     
     res.status(200).json({record: record});
@@ -23,7 +23,7 @@ router.get('/anuncio/:id/', async (req, res) => {
 router.post('/anuncio/', async (req, res) => {
     const info = req.body;
     
-    const record = await anuncioTable.create(info)
+    const record = await respuestaTable.create(info)
         .catch(err => console.log(err));
 })
 
@@ -31,15 +31,15 @@ router.post('/anuncio/', async (req, res) => {
 router.put('/anuncion/:id/', async (req, res) => {
     const info = req.body;
     
-    const record = await anuncioTable.update(info)
+    const record = await respuestaTable.update(info)
         .catch(err => console.log(err));
 })
 
 // Delete
-router.delete('/anuncio/:id/', (req, res) => {
-    const record = req.body;
+router.delete('/anuncio/:id/', async (req, res) => {
+    const id = req.params.id;
     
-    anuncioTable.delete(record)
+    const record = await respuestaTable.delete({id})
         .catch(err => console.log(err));
 })
 
