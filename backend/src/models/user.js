@@ -2,13 +2,17 @@ const Sequelize = require("sequelize");
 const db = require("../config/database");
 const Clase = require("./clase")
 const Anuncio = require("./anuncio")
+const Pregunta = require("./pregunta")
+const Entrega = require("./entrega")
 
 const User = db.define("user", {
-        name: {
-            type: Sequelize.STRING
+        google_id: {
+            type: Sequelize.STRING,
+            allowNull: false,
         },
-        age: {
-            type: Sequelize.INTEGER
+        rol: {
+            type: Sequelize.ENUM("Estudiante", "Profesor"),
+            allowNull: false,
         }
     },  
     {
@@ -18,5 +22,7 @@ const User = db.define("user", {
 
 User.belongsToMany(Clase, {through: "registro",});
 User.belongTo(Anuncio);
+User.belongTo(Pregunta);
+User.belongTo(Entrega);
 
 module.exports = User;
