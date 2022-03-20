@@ -13,7 +13,7 @@ services:
 
   django:
     build:
-      context: djackend
+      context: ./djackend/
     command: >
       bash -c "python3 manage.py collectstatic --noinput &&
               python3 manage.py migrate &&
@@ -24,19 +24,16 @@ services:
       - connection
     ports:
       - "8000:8000"
+    expose:
+      - "8000"
     volumes:
-      - ./djackend:/app
+      - ./djackend:/usr/src/app
     environment:
-<<<<<<< Updated upstream
-      - DATABASE_URL=postgres://postgres:local-password@postgres/software-engineering
-=======
-      # - DATABASE_URL=psql://postgres:local-password@postgres/software-engineering
       - NAME=software-engineering
       - USER=postgres
       - PASSWORD=local-password
       - HOST=postgres
       - PORT=5432
->>>>>>> Stashed changes
 
   react:
     build:
