@@ -11,28 +11,36 @@ services:
       - POSTGRES_PASSWORD=local-password
       - POSTGRES_DB=software-engineering
 
-  express:
+  django:
     build:
-      context: backend
-    command: npm run dev
+      context: ./djackend/
+    command: >
+      bash -c "python3 manage.py collectstatic --noinput &&
+              python3 manage.py migrate &&
+              python3 manage.py runserver 0.0.0.0:8000"
     depends_on:
       - postgres
     networks:
       - connection
     ports:
-      - "4200:4200"
+      - "8000:8000"
+    expose:
+      - "8000"
     volumes:
-      - ./backend:/usr/src/app
-      - /usr/src/app/node_modules/
+      - ./djackend:/usr/src/app
     environment:
-      - DATABASE_URL=postgres://postgres:local-password@postgres/software-engineering
+      - NAME=software-engineering
+      - USER=postgres
+      - PASSWORD=local-password
+      - HOST=postgres
+      - PORT=5432
 
   react:
     build:
       context: frontend
     command: npm start
     depends_on:
-      - express
+      - django
     networks:
       - connection
     ports:
