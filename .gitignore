@@ -92,6 +92,8 @@ web_modules/
 .next
 out
 
+**/__pycache__/
+
 # Nuxt.js build / generate output
 .nuxt
 dist

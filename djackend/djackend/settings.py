@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google', #for google auth
+    'crispy_forms',
 ]
 
 SOCIALACCOUNT_PROVIDERS = {
@@ -72,7 +73,7 @@ AUTHENTICATION_BACKENDS = (
 
 SITE_ID = 1
 
-LOGIN_REDIRECT_URL = '/tutorials'
+LOGIN_REDIRECT_URL = '/index'
 
 
 MIDDLEWARE = [
