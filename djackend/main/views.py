@@ -1,5 +1,5 @@
-from .models import (Clase, Anuncio, Entrega, Pregunta, Respuesta)
-from .serializers import (ClaseSerializer, AnuncioSerializer, EntregaSerializer, PreguntaSerializer, RespuestaSerializer)
+from .models import (Clase, Anuncio, Entrega, Pregunta)
+from .serializers import (ClaseSerializer, AnuncioSerializer, EntregaSerializer, PreguntaSerializer)
 from rest_framework import viewsets
 from django_filters.rest_framework import DjangoFilterBackend
 
@@ -62,13 +62,3 @@ class PreguntaView(viewsets.ModelViewSet):
     def get_queryset(self):
         queryset = Pregunta.objects.all()
         return queryset
-
-class RespuestaView(viewsets.ModelViewSet):
-    serializer_class = RespuestaSerializer
-    filter_backends = [DjangoFilterBackend]
-
-    filterset_fields = '__all__'
-    def get_queryset(self):
-        queryset = Respuesta.objects.all()
-        return queryset
-

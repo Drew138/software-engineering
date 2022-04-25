@@ -1,5 +1,5 @@
-from rest_framework import serializers, fields
-from .models import (Clase, Anuncio, Entrega, Pregunta, Respuesta)
+from rest_framework import serializers
+from .models import (Clase, Anuncio, Entrega, Pregunta)
 
 class ClaseSerializer(serializers.ModelSerializer):
 
@@ -21,12 +21,9 @@ class EntregaSerializer(serializers.ModelSerializer):
 
 class PreguntaSerializer(serializers.ModelSerializer):
 
+    respuesta = serializers.CharField(required=False, allow_blank=True)
+
     class Meta:
         model = Pregunta
         fields = '__all__'
 
-class RespuestaSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = Respuesta
-        fields = '__all__'

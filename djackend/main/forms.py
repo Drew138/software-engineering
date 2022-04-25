@@ -1,5 +1,5 @@
 from django import forms
-from .models import Anuncio, Entrega, Pregunta, Respuesta
+from .models import Anuncio, Entrega, Pregunta
 
 class EntregaForm(forms.Form):
     
@@ -19,8 +19,4 @@ class PreguntaForm(forms.Form):
         model = Pregunta
         fields = '__all__'
 
-class RespuestaForm(forms.Form):
-    
-    class Meta:
-        model = Respuesta
-        fields = '__all__'
+

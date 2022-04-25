@@ -8,12 +8,11 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { Box } from '@mui/material';
 import axios from 'axios';
 import { baseURL } from '../../config';
-import {Anuncio} from '../../models/Anuncio';
+import {Pregunta} from '../../models/Pregunta';
 
-const CrearAnuncioDialog = ({ anuncio, idClase }: { anuncio?: Anuncio, idClase: string }) => {
+const CrearPreguntaDialog = ({ pregunta, idClase }: { pregunta?: Pregunta, idClase: string }) => {
   const [open, setOpen] = React.useState(false);
-  const [titulo, setTitulo] = React.useState(anuncio?.titulo ?? '');
-  const [cuerpo, setCuerpo] = React.useState(anuncio?.cuerpo ?? '');
+  const [titulo, setTitulo] = React.useState(pregunta?.titulo ?? '');
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -26,13 +25,13 @@ const CrearAnuncioDialog = ({ anuncio, idClase }: { anuncio?: Anuncio, idClase: 
   const handleSubmit = async () => {
     const body = {
       titulo,
-      cuerpo,
       clase: idClase
     }
-    if (anuncio) {
-      await axios.put<Anuncio>(`${baseURL}api/v1/anuncio/${anuncio?.id}/`, body);
-    } else {
-      await axios.post<Anuncio>(`${baseURL}api/v1/anuncio/`, body);
+    if (pregunta){
+      await axios.put<Pregunta>(`${baseURL}api/v1/pregunta/${pregunta?.id}/`, body);
+    }
+    else {  
+      await axios.post<Pregunta>(`${baseURL}api/v1/pregunta/`, body);
     }
     setOpen(false);
   };
@@ -40,10 +39,10 @@ const CrearAnuncioDialog = ({ anuncio, idClase }: { anuncio?: Anuncio, idClase: 
   return (
     <Box sx={{ width: '100%', display: 'flex', justifyContent:'right'}}>
       <Button variant="outlined" onClick={handleClickOpen} sx={{marginRight:"50px", marginTop: "20px"}}>
-        { anuncio ? "Editar" : "Crear" } Anuncio
+        { pregunta ? "Editar" : "Crear" } Pregunta
       </Button>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>{anuncio ? "Editar Anuncio" : "Crear Anuncio"}</DialogTitle>
+        <DialogTitle>{pregunta ? "Editar Pregunta" : "Crear Pregunta"}</DialogTitle>
         <DialogContent>
 
           <TextField
@@ -58,20 +57,6 @@ const CrearAnuncioDialog = ({ anuncio, idClase }: { anuncio?: Anuncio, idClase: 
 			      onChange={(e) => setTitulo(e.target.value)}
           />
 
-          <TextField
-            autoFocus
-            margin="dense"
-            id="name"
-            label="Descripcion"
-            type="text"
-            fullWidth
-            multiline
-            variant="outlined"
-            rows={10}
-            value={cuerpo} 
-			      onChange={(e) => setCuerpo(e.target.value)}
-          />
-
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancelar</Button>
@@ -82,4 +67,4 @@ const CrearAnuncioDialog = ({ anuncio, idClase }: { anuncio?: Anuncio, idClase: 
   );
 }
 
-export default CrearAnuncioDialog;
+export default CrearPreguntaDialog;
