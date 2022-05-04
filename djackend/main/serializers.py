@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import (Clase, Anuncio, Entrega, Pregunta)
+from .models import (Clase, Anuncio, Entrega, Pregunta, User)
 
 class ClaseSerializer(serializers.ModelSerializer):
 
@@ -26,4 +26,17 @@ class PreguntaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Pregunta
         fields = '__all__'
+
+class UserSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = User
+        fields = [
+            'id',
+            'username', 
+            'first_name',
+            'last_name',
+            'rol',
+            'clases',
+        ]
 

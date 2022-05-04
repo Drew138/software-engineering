@@ -1,5 +1,5 @@
-from .models import (Clase, Anuncio, Entrega, Pregunta)
-from .serializers import (ClaseSerializer, AnuncioSerializer, EntregaSerializer, PreguntaSerializer)
+from .models import (Clase, Anuncio, Entrega, Pregunta, User)
+from .serializers import (ClaseSerializer, AnuncioSerializer, EntregaSerializer, PreguntaSerializer, UserSerializer)
 from rest_framework import viewsets
 from django_filters.rest_framework import DjangoFilterBackend
 
@@ -8,25 +8,14 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login, authenticate, logout
 
-def homepage(request):
-    return render(request, "home.html")
+class UserView(viewsets.ModelViewSet):
 
-def register(request):
-    if request.method == "POST":
-        form = UserCreationForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-            username = form.cleaned_data.get('username')
-            messages.success(request, f"New account created: {username}")
-            login(request, user, backend='django.contrib.auth.backends.ModelBackend')
-        else:
-            messages.error(request,"Account creation failed")
+    serializer_class = UserSerializer
+    # filter_backends = [DjangoFilterBackend]
 
-        return redirect("main:homepage")
 
-    form = UserCreationForm()
-    return render(request,"register.html", {"form": form})
-
+    def get_queryset(self):
+        return User.objects.all() 
 
 class ClaseView(viewsets.ModelViewSet):
     serializer_class = ClaseSerializer

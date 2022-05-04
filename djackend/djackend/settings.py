@@ -28,6 +28,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+AUTH_USER_MODEL = 'main.User'
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -42,34 +43,14 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework',
     
-    # Auth
-    'django.contrib.sites',
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
-    'allauth.socialaccount.providers.google', #for google auth
-    'crispy_forms',
+    # # Auth
+    # 'django.contrib.sites',
+    # 'allauth',
+    # 'allauth.account',
+    # 'allauth.socialaccount',
+    # 'allauth.socialaccount.providers.google', #for google auth
+    # 'crispy_forms',
 ]
-
-SOCIALACCOUNT_PROVIDERS = {
-    'google': {
-        'SCOPE': [
-            'profile',
-            'email',
-        ],
-        'AUTH_PARAMS': {
-            'access_type': 'online',
-        }
-    }
-}
-
-AUTHENTICATION_BACKENDS = (
-    #used for default signin such as loggin into admin panel
-    'django.contrib.auth.backends.ModelBackend', 
-    
-    #used for social authentications
-    'allauth.account.auth_backends.AuthenticationBackend',
-)
 
 SITE_ID = 1
 

@@ -1,6 +1,7 @@
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.utils.timezone import now
+from django.contrib.auth.models import AbstractUser
 
 class Clase(models.Model):
     nombre = models.CharField(max_length=255)
@@ -8,21 +9,18 @@ class Clase(models.Model):
     def __str__(self):
         return f"Clase: {self.nombre}"
 
-# class User(AbstractBaseUser):
-#     class Roles(models.TextChoices): 
-#         Estudiante: 'Estudiante'
-#         Profesor: 'Profesor'
+class User(AbstractUser):
+    class Roles(models.TextChoices): 
+        Estudiante = 'Estudiante'
+        Profesor = 'Profesor'
         
-#     google_id = models.CharField()
-#     rol = models.CharField(max_length=255, choices=Roles.choices, default=Roles.Estudiante)
-#     clases = models.ManyToManyField(Clase)
+    rol = models.CharField(max_length=255, choices=Roles.choices, default=Roles.Estudiante)
+    clases = models.ManyToManyField(Clase)
+    clases_suscritas = models.ManyToManyField(Clase, related_name="usuarios_suscritos")
     
-#     def __str__(self):
-#         return f"User: {self.first_name}"
+    def __str__(self):
+        return f"User: {self.first_name}"
 
-#     @property
-#     def is_staff(self):
-#         return self.rol == 'Profesor'
 
 def today():
     return now().date()

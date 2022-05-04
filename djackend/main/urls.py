@@ -1,18 +1,19 @@
 from rest_framework import routers
 from django.urls import path
-from .views import (ClaseView, AnuncioView, EntregaView, PreguntaView)
+from .views import (ClaseView, AnuncioView, EntregaView, PreguntaView, UserView)
 from . import views
 
 router = routers.DefaultRouter()
-router.register('clase', ClaseView, 'city') # ?
-router.register('entrega', EntregaView, 'city')
-router.register('anuncio', AnuncioView, 'city')
-router.register('pregunta', PreguntaView, 'city')
+router.register('clase', ClaseView, 'clase') # ?
+router.register('entrega', EntregaView, 'entrega')
+router.register('anuncio', AnuncioView, 'anuncio')
+router.register('pregunta', PreguntaView, 'pregunta')
+router.register('user', UserView, 'user')
 
 
-urlpatterns = [
-    path("", views.homepage, name="homepage"),
-    path("register", views.register, name="register"),
-]
+# urlpatterns = [
+#     path("", views.homepage, name="homepage"),
+#     path("register", views.register, name="register"),
+# ]
 
-urlpatterns += router.urls
+urlpatterns = router.urls
