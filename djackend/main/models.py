@@ -17,7 +17,7 @@ class User(AbstractUser):
     rol = models.CharField(max_length=255, choices=Roles.choices, default=Roles.Estudiante)
     clases = models.ManyToManyField(Clase)
     clases_suscritas = models.ManyToManyField(Clase, related_name="usuarios_suscritos")
-    
+    REQUIRED_FIELDS = ['rol']
     def __str__(self):
         return f"User: {self.first_name}"
 

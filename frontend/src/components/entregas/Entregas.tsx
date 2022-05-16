@@ -11,7 +11,7 @@ import EntregaCard from '../cards/EntregaCard';
 import Button from '@mui/material/Button';
 
 
-const Entregas = ({ idClase }: { idClase: string }) => {
+const Entregas = ({idClase, user} : {idClase: string, user: User | null }) => {
     const [isSubscribed, setIsSubscribed] = React.useState(false); // TODO: Check if user is already subscribed
     const fetchEntregas = async () => {
         const res = await axios.get<Entrega[]>(`${baseURL}api/v1/entrega/`, { params: { clase: idClase } });
@@ -42,7 +42,7 @@ const Entregas = ({ idClase }: { idClase: string }) => {
             </Button>
             <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                 {data?.map(entrega => (
-                    <EntregaCard entrega={entrega} key={entrega.id} idClase={idClase} />
+                    <EntregaCard entrega={entrega} key={entrega.id} idClase={idClase} user={user}/>
                 ))}
             </Box>
         </>

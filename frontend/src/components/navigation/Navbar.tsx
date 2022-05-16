@@ -12,12 +12,17 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import logo from "../../assets/Davinci_Logo.png";
-
+import {User} from "../../models/User";
+import { useNavigate } from "react-router-dom";
 
 const pages: string[] = [];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const settings = ['Logout'];
 
-const Navbar = () => {
+interface Props {
+  user: (User | null);
+}
+
+const Navbar = ({user} : Props) => {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
 
@@ -36,6 +41,8 @@ const Navbar = () => {
     setAnchorElUser(null);
   };
 
+  let navigate = useNavigate();
+
   return (
     <AppBar position="static">
       <Container maxWidth="xl">
@@ -46,7 +53,7 @@ const Navbar = () => {
             component="div"
             sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}
           >
-            <img src={logo} width={60} height={60} alt="DaVinci Logo"/>
+            <img src={logo} width={60} height={60} alt="DaVinci Logo" />
 
           </Typography>
 
@@ -68,7 +75,7 @@ const Navbar = () => {
             component="div"
             sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}
           >
-            
+
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
@@ -82,7 +89,11 @@ const Navbar = () => {
             ))}
           </Box>
 
-          <Box sx={{ flexGrow: 0 }}>
+          {!user && <Button variant="contained" href="/auth/signup" >
+            Sign Up
+          </Button>}
+
+          {user && <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
@@ -106,11 +117,15 @@ const Navbar = () => {
             >
               {settings.map((setting) => (
                 <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
+                  <Button onClick={() => {
+                    localStorage.removeItem('user_tk');
+                    navigate("/", { replace: true });
+                  }} >{setting}</Button>
                 </MenuItem>
               ))}
             </Menu>
-          </Box>
+          </Box>}
+
         </Toolbar>
       </Container>
     </AppBar>

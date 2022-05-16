@@ -7,21 +7,28 @@ import Stack from '@mui/material/Stack';
 import Divider from '@mui/material/Divider';
 import { Pregunta } from '../../models/Pregunta';
 import CrearPreguntaDialog from '../dialogs/CrearPreguntaDialog';
+import BorrarDialog from '../dialogs/BorrarDialog';
+import CrearRespuestaDialog from '../dialogs/CrearRespuestaDialog';
+import { User } from '../../models/User';
 
-
-const PreguntaCard = ({ pregunta, idClase  } : { pregunta: Pregunta, idClase: string  }) => {
+const PreguntaCard = ({ pregunta, idClase, user }: { pregunta: Pregunta, idClase: string, user: User | null }) => {
+  
   return (
-    <Card sx={{ maxWidth: 1500, maxHeight: 200, m: 3 }}>
+    <Card sx={{ maxWidth: 1500, maxHeight: 400, m: 3 }}>
       <CardContent>
+        {user?.rol === 'Estudiante' && <BorrarDialog tipo="pregunta" nombre="pregunta" id={pregunta.id} />}
         <Typography gutterBottom variant="h5" component="div">
-          { pregunta.titulo }
+          {pregunta.titulo}
         </Typography>
-        <CrearPreguntaDialog pregunta={pregunta} idClase={idClase}/>
-        <Divider variant="inset"/>
+
+        {user?.rol === 'Estudiante' && <CrearPreguntaDialog pregunta={pregunta} idClase={idClase} />}
+        <Divider variant="inset" />
+
+
         <Typography variant="body2" color="text.secondary">
-          { pregunta.respuesta }
+          {pregunta.respuesta}
         </Typography>
-        
+        { user?.rol === 'Profesor' && <CrearRespuestaDialog pregunta={pregunta} idClase={idClase} /> }
       </CardContent>
     </Card>
   );

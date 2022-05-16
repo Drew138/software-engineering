@@ -8,8 +8,9 @@ import axios from 'axios';
 import { baseURL } from '../../config';
 import { Anuncio } from '../../models/Anuncio';
 import AnuncioCard from '../cards/AnuncioCard';
+import {User } from '../../models/User';
 
-const Anuncios = ({ idClase } : { idClase: string }) => {
+const Anuncios = ({ idClase, user } : { idClase: string, user: User | null }) => {
 
   const fetchAnuncios = async () => {
     const res = await axios.get<Anuncio[]>(`${baseURL}api/v1/anuncio/`, { params: { clase: idClase }});
@@ -23,7 +24,7 @@ const Anuncios = ({ idClase } : { idClase: string }) => {
     <Box sx={{ display: 'flex', flexDirection: 'column', m: 3 }}>
       {
         data?.map(anuncio => (
-          <AnuncioCard anuncio={anuncio} key={anuncio.id} idClase={idClase} />
+          <AnuncioCard anuncio={anuncio} key={anuncio.id} idClase={idClase} user={user}/>
         ))
       }
     </Box>

@@ -16,8 +16,9 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import Button from '@mui/material/Button';
+import {User} from '../../models/User';
 
-const Sidebar = () => {
+const Sidebar = ({user}: {user: User | null}) => {
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -29,20 +30,33 @@ const Sidebar = () => {
   };
 
   const fetchClases = async () => {
-    const res = await axios.get<Clase[]>(`${baseURL}api/v1/clase/`);
+    const res = await axios.get<Clase[]>(`${baseURL}api/v1/clase/`, { params: {user: (user?.id || 0) } });
     return res.data;
   }
   
   const {data} = useQuery('clases', fetchClases);
 
   const [nombre, setNombre] = React.useState('');
+  const [codigo, setCodigo] = React.useState('');
 
-  const handleSubmit = async () => {
+  const handleSubmitProf = async () => {
     const body = {
       nombre
     }
     await axios.post<Clase>(`${baseURL}api/v1/clase/`, body);
     setOpen(false);
+  };
+
+  const handleSubmitEst = async () => {
+    try {
+      const res = await axios.get<Clase>(`${baseURL}api/v1/clase/${codigo}`);
+      const clase = res.data;
+
+    } catch(err) {
+      console.log("Clase inexistente!");
+    } finally {
+      setOpen(false);
+    }
   };
 
   return (
@@ -73,7 +87,7 @@ const Sidebar = () => {
             </Avatar> 
           </ListItem>
         </List>
-        <Dialog open={open} onClose={handleClose}>
+        {user?.rol === "Profesor" && <Dialog open={open} onClose={handleClose}>
         <DialogTitle>{"Crear Clase"}</DialogTitle>
         <DialogContent>
 
@@ -92,9 +106,31 @@ const Sidebar = () => {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancelar</Button>
-          <Button onClick={handleSubmit}>Guardar</Button>
+          <Button onClick={handleSubmitProf}>Guardar</Button>
         </DialogActions>
-      </Dialog>
+      </Dialog>}
+      {user?.rol === "Estudiante" && <Dialog open={open} onClose={handleClose}>
+        <DialogTitle>{"Unirse a Clase"}</DialogTitle>
+        <DialogContent>
+
+          <TextField
+            autoFocus
+            margin="dense"
+            id="codigoClase"
+            label="Codigo de la clase"
+            type="text"
+            fullWidth
+            variant="standard"
+            value={codigo} 
+			      onChange={(e) => setCodigo(e.target.value)}
+          />
+
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Cancelar</Button>
+          <Button onClick={handleSubmitEst}>Guardar</Button>
+        </DialogActions>
+      </Dialog>}
       </Box>
     </Drawer>
   )

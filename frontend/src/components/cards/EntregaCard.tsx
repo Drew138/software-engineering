@@ -6,12 +6,15 @@ import { Entrega } from '../../models/Entrega';
 import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
 import CrearEntregaDialog from '../dialogs/CrearEntregaDialog';
+import BorrarDialog  from '../dialogs/BorrarDialog';
+import { User } from '../../models/User';
 
-
-const EntregaCard = ({ entrega, idClase } : { entrega: Entrega, idClase: string }) => {
+const EntregaCard = ({ entrega, idClase, user }: { entrega: Entrega, idClase: string, user: User | null }) => {
   return (
     <Card sx={{ maxWidth: 1500, maxHeight: 200, m: 3 }}>
+
       <CardContent>
+      {user?.rol === 'Profesor' && <BorrarDialog tipo="entrega" nombre="entrega" id={entrega.id}/>}
         <Typography gutterBottom variant="h5" component="div">
           { entrega.titulo }
         </Typography>
@@ -22,7 +25,7 @@ const EntregaCard = ({ entrega, idClase } : { entrega: Entrega, idClase: string 
           <Chip label={entrega.porcentaje + "%"}/>
           <Chip label={entrega.fecha_entrega}/>
         </Stack>
-        <CrearEntregaDialog entrega={entrega} idClase={idClase}/>
+        {user?.rol === 'Profesor' && <CrearEntregaDialog entrega={entrega} idClase={idClase}/>}
       </CardContent>
     </Card>
   );

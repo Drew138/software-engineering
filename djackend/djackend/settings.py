@@ -42,19 +42,13 @@ INSTALLED_APPS = [
     'main',
     'corsheaders',
     'rest_framework',
-    
-    # # Auth
-    # 'django.contrib.sites',
-    # 'allauth',
-    # 'allauth.account',
-    # 'allauth.socialaccount',
-    # 'allauth.socialaccount.providers.google', #for google auth
-    # 'crispy_forms',
+    'rest_framework.authtoken',
+    'djoser',
 ]
 
-SITE_ID = 1
+# SITE_ID = 1
 
-LOGIN_REDIRECT_URL = '/index'
+# LOGIN_REDIRECT_URL = '/index'
 
 
 MIDDLEWARE = [
@@ -121,7 +115,12 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ),
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
