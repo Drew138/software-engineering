@@ -32,7 +32,7 @@ const Sidebar = ({user}: {user: User | null}) => {
   const fetchClases = async () => {
     const res = await axios.get<Clase[]>(`${baseURL}api/v1/clase/`, { params: {user: (user?.id || 0) } });
     return res.data;
-  }
+  } 
   
   const {data} = useQuery('clases', fetchClases);
 
@@ -43,15 +43,18 @@ const Sidebar = ({user}: {user: User | null}) => {
     const body = {
       nombre
     }
-    await axios.post<Clase>(`${baseURL}api/v1/clase/`, body);
+    const res = await axios.post<Clase>(`${baseURL}api/v1/clase/`, body);
+    await axios.post(`${baseURL}api/v1/clase/unirse_clase/`, { clase: res.data.id, usuario: user?.id });
+    console.log("CLASE NUEVA:" + res.data.id);
     setOpen(false);
   };
 
   const handleSubmitEst = async () => {
     try {
-      const res = await axios.get<Clase>(`${baseURL}api/v1/clase/${codigo}`);
+      console.log(codigo)
+      console.log(user?.id)
+      const res = await axios.post(`${baseURL}api/v1/clase/unirse_clase/`, { clase: codigo, usuario: user?.id });
       const clase = res.data;
-
     } catch(err) {
       console.log("Clase inexistente!");
     } finally {

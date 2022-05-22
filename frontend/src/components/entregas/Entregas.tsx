@@ -21,17 +21,16 @@ const Entregas = ({idClase, user} : {idClase: string, user: User | null }) => {
     const { data } = useQuery('entregas', fetchEntregas);
 
     const subscribe = async () => {
-        const userId = 1;
-        const res = await axios.get<User>(`${baseURL}api/v1/user/${userId}/`);
-        const user = { ...res.data };
-        let new_clases = res.data.clases_suscritas ?? [];
+        if(!user) return;
         
+        const userId = user.id;
+        let new_clases = user.clases_suscritas ?? [];
+        console.log("Clases: "+new_clases)
         if (isSubscribed) new_clases = new_clases.filter((el: number) => el !== Number(idClase));
         else (new_clases).push(Number(idClase));
         
         user.clases_suscritas = new_clases;
-        user.clases = [1];
-        const res2 = await axios.patch<User>(`${baseURL}api/v1/user/${userId}/`, user);
+        await axios.patch<User>(`${baseURL}api/v1/user/${userId}/`, user);
         setIsSubscribed(!isSubscribed);
     }
     

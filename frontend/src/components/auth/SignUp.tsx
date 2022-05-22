@@ -39,8 +39,9 @@ export default function SignUp() {
             username: data.get('username'),
             email: data.get('email'),
             password: data.get('password'),
-            rol: data.get('tipo'),
+            rol: data.get('tipo'),//primoschucha
         };
+        console.log("new account: ")
         console.log(body)
         await axios.post(`${baseURL}auth/users/`, body);
         navigate("/", { replace: true });
